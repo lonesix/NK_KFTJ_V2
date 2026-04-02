@@ -27,11 +27,11 @@
 #define VOLUME_UP_BUTTON_GPIO   GPIO_NUM_NC
 #define VOLUME_DOWN_BUTTON_GPIO GPIO_NUM_NC
 
-#define DISPLAY_WIDTH   240
-#define DISPLAY_HEIGHT  320
-#define DISPLAY_MIRROR_X false
+#define DISPLAY_WIDTH   320
+#define DISPLAY_HEIGHT  240
+#define DISPLAY_MIRROR_X true
 #define DISPLAY_MIRROR_Y false
-#define DISPLAY_SWAP_XY false
+#define DISPLAY_SWAP_XY true
 
 #define DISPLAY_OFFSET_X  0
 #define DISPLAY_OFFSET_Y  0
@@ -41,7 +41,7 @@
 
 #define BSP_I2C_NUM           (1)            // I2C外设
 
-
+//network config
 #define ML307_RX_PIN GPIO_NUM_44
 #define ML307_TX_PIN GPIO_NUM_43
 #define NETWORK_TYPE_WIFI 0

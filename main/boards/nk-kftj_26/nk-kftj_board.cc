@@ -243,6 +243,7 @@ class NK_KFTJ_26  : public DualNetworkBoard {
         config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
 
         camera_ = new Esp32Camera(config);
+        camera_->SetVFlip(true);
     }
 
     void InitializeButtons() {
