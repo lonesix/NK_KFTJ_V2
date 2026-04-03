@@ -251,8 +251,11 @@ class NK_KFTJ_26  : public DualNetworkBoard {
             auto& app = Application::GetInstance();
             // During startup (before connected), pressing BOOT button enters Wi-Fi config mode without reboot
             if (app.GetDeviceState() == kDeviceStateStarting) {
+                printf("Entering Wi-Fi config mode\n");
+                printf("NETWORK_TYPE:%d,NETWORK_TYPE_WIFI:%d\n",NETWORK_TYPE,NETWORK_TYPE_WIFI);
                 if (NETWORK_TYPE == NETWORK_TYPE_WIFI)
                 {
+                    printf("EnterWifiConfigMode\n");
                     EnterWifiConfigMode();
                 }
                 

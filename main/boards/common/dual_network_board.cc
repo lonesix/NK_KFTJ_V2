@@ -96,3 +96,10 @@ std::string DualNetworkBoard::GetBoardJson() {
 std::string DualNetworkBoard::GetDeviceStatusJson() {
     return current_board_->GetDeviceStatusJson();
 }
+
+void DualNetworkBoard::EnterWifiConfigMode() {
+    if (network_type_ == NetworkType::WIFI) {
+        current_board_->EnterWifiConfigMode();
+    }
+    
+}

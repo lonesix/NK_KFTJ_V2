@@ -317,18 +317,10 @@ void WifiConfigurationAp::StartWebServer()
             auto *this_ = static_cast<WifiConfigurationAp *>(req->user_ctx);
             std::lock_guard<std::mutex> lock(this_->mutex_);
 
-            // Check if 5G is supported
-            bool support_5g = false;
-#ifdef CONFIG_SOC_WIFI_SUPPORT_5G
-            support_5g = true;
-#endif
-
             // Send the scan results as JSON
             httpd_resp_set_type(req, "application/json");
             httpd_resp_set_hdr(req, "Connection", "close");
-            httpd_resp_sendstr_chunk(req, "{\"support_5g\":");
-            httpd_resp_sendstr_chunk(req, support_5g ? "true" : "false");
-            httpd_resp_sendstr_chunk(req, ",\"aps\":[");
+            httpd_resp_sendstr_chunk(req, "[");
             for (int i = 0; i < this_->ap_records_.size(); i++) {
                 ESP_LOGI(TAG, "SSID: %s, RSSI: %d, Authmode: %d",
                     (char *)this_->ap_records_[i].ssid, this_->ap_records_[i].rssi, this_->ap_records_[i].authmode);
@@ -340,7 +332,7 @@ void WifiConfigurationAp::StartWebServer()
                     httpd_resp_sendstr_chunk(req, ",");
                 }
             }
-            httpd_resp_sendstr_chunk(req, "]}");
+            httpd_resp_sendstr_chunk(req, "]");
             httpd_resp_sendstr_chunk(req, NULL);
             return ESP_OK;
         },

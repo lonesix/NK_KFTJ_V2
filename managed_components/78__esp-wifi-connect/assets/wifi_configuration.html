@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI机器人设备配网助手</title>
+  <title>AI开发套件配网助手</title>
   <!-- Tailwind配置 -->
   <script>
     (() => {
@@ -612,7 +612,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                 d="M104 224H24c-13.255 0-24 10.745-24 24v240c0 13.255 10.745 24 24 24h80c13.255 0 24-10.745 24-24V248c0-13.255-10.745-24-24-24zM64 472c-13.255 0-24-10.745-24-24s10.745-24 24-24 24 10.745 24 24-10.745 24-24 24zM384 81.452c0 42.416-25.97 66.208-33.277 94.548h101.723c33.397 0 59.397 27.746 59.553 58.098.084 17.938-7.546 37.249-19.439 49.197l-.11.11c9.836 23.337 8.237 56.037-9.308 79.469 8.681 25.895-.069 57.704-16.382 74.757 4.298 17.598 2.244 32.575-6.148 44.632C440.202 511.587 389.616 512 346.839 512l-2.845-.001c-48.287-.017-87.806-17.598-119.56-31.725-15.957-7.099-36.821-15.887-52.651-16.178-6.54-.12-11.783-5.457-11.783-11.998v-213.77c0-3.2 1.282-6.271 3.558-8.521 39.614-39.144 56.648-80.587 89.117-113.111 14.804-14.832 20.188-37.236 25.393-58.902C282.515 39.293 291.817 0 312 0c24 0 72 8 72 81.452z" />
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-gray-800 mb-2">AI机器人已成功联网！</h3>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">AI玩具已成功联网！</h3>
           <p class="text-gray-600" id="successWifi">您的设备已成功连接 <span id="successWifiName"></span></p>
         </div>
 
@@ -762,6 +762,11 @@ Check your Browserslist config to be sure that your targets are set up correctly
             onclick="submitAdvancedForm()">
             保存设置
           </button>
+          <button id="restart_button" title="重启设备"
+            class="flex-1 bg-primary hover:bg-primary/90 text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+            onclick="rebootDevice()">
+            重启设备
+          </button>
         </div>
       </div>
 
@@ -791,7 +796,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                   <path fill="currentColor"
                     d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z" />
                 </svg>
-                为什么我的手机搜索不到AI机器人的WiFi热点？
+                为什么我的手机搜索不到AI玩具的WiFi热点？
               </div>
               <svg class="fa-icon text-gray-400 transition-transform duration-300" id="faq1-icon" viewBox=" 0 0 448 512" width="24" height="24" style="margin-right: 5px;display: inline-block">
                 <path fill="currentColor"
@@ -800,10 +805,10 @@ Check your Browserslist config to be sure that your targets are set up correctly
             </button>
             <div class="p-4 pt-0 border-t border-gray-100 hidden" id="faq1-content">
               <div class="text-gray-700">
-                <p class="mb-2">1. 请确保AI机器人已开机，并且处于配网模式（通常设备指示灯会闪烁蓝色或橙色）</p>
+                <p class="mb-2">1. 请确保AI玩具已开机，并且处于配网模式（通常设备指示灯会闪烁蓝色或橙色）</p>
                 <p class="mb-2">2. 靠近设备，避免距离过远导致信号弱</p>
                 <p class="mb-2">3. 关闭手机的"自动连接"功能，避免手机自动连接到其他WiFi网络</p>
-                <p>4. 尝试重启AI机器人和手机，然后重新搜索WiFi热点</p>
+                <p>4. 尝试重启AI玩具和手机，然后重新搜索WiFi热点</p>
               </div>
             </div>
           </div>
@@ -880,7 +885,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
             <div class="p-4 pt-0 border-t border-gray-100 hidden" id="faq4-content">
               <div class="text-gray-700">
                 <p class="mb-2">1. 配网过程中请保持设备和手机处于开机状态，不要关闭页面</p>
-                <p class="mb-2">2. 确保手机已连接到AI机器人的WiFi热点（通常以"AI-"开头）</p>
+                <p class="mb-2">2. 确保手机已连接到AI玩具的WiFi热点（通常以"AI-"开头）</p>
                 <p class="mb-2">3. 尝试清除浏览器缓存或使用其他浏览器重新进行配网</p>
                 <p>4. 长按设备的重置按钮5秒，将设备恢复到出厂设置后重新配网</p>
               </div>
@@ -896,7 +901,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
                   <path fill="currentColor"
                     d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z" />
                 </svg>
-                为什么我的AI机器人只能连接2.4G WiFi，不能连接5G WiFi？
+                为什么我的AI玩具只能连接2.4G WiFi，不能连接5G WiFi？
               </div>
               <svg class="fa-icon text-gray-400 transition-transform duration-300" id="faq5-icon" viewBox=" 0 0 448 512" width="24" height="24" style="margin-right: 5px;display: inline-block">
                 <path fill="currentColor"
@@ -905,7 +910,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
             </button>
             <div class="p-4 pt-0 border-t border-gray-100 hidden" id="faq5-content">
               <div class="text-gray-700">
-                <p class="mb-2">1. 部分AI机器人设备仅支持2.4GHz频段的WiFi网络，不支持5GHz频段</p>
+                <p class="mb-2">1. 部分AI开发套件仅支持2.4GHz频段的WiFi网络，不支持5GHz频段</p>
                 <p class="mb-2">2. 请确保您选择的WiFi网络是2.4G频段（可在路由器设置中查看）</p>
                 <p class="mb-2">3. 如果您的路由器同时提供2.4G和5G网络，请选择2.4G网络进行连接</p>
                 <p>4. 部分路由器将2.4G和5G网络合并为一个SSID，此时需要在路由器设置中分开设置</p>
@@ -1128,7 +1133,7 @@ Check your Browserslist config to be sure that your targets are set up correctly
           count = 0
           clearInterval(timer);
           showPage('connection-success');
-          fetch(domain + '/reboot', {
+          fetch(domain + '/exit', {
             method: 'POST'
           })
             .then(response => {
@@ -1327,6 +1332,11 @@ Check your Browserslist config to be sure that your targets are set up correctly
         content.classList.add('hidden');
         icon.classList.remove('rotate-180');
       }
+    }
+    // 重启设备
+    function rebootDevice() {
+      showPage('reboot')
+      fnRebootDevice()
     }
   </script>
 </body>
