@@ -17,6 +17,7 @@
 #include "device_state.h"
 #include "device_state_machine.h"
 
+#include "sensor_manager.h"
 // Main event bits
 #define MAIN_EVENT_SCHEDULE             (1 << 0)
 #define MAIN_EVENT_SEND_AUDIO           (1 << 1)
@@ -120,9 +121,20 @@ public:
      */
     void ResetProtocol();
 
+    SensorManager g_sensor; //传感器
+    
+    std::string sensorDataUrl;
+    std::string GetSensorDataUrl() const { return sensorDataUrl; }
+    void ProcessReceivedJson(cJSON* root);
+    std::string GetTemperature() const { return g_sensor.getValue("tem"); }
+    std::string GetHumidity() const { return g_sensor.getValue("hum"); }
 private:
     Application();
     ~Application();
+
+    //协处理器传感器数据
+    std::string temperature_ = "未获取";
+    std::string humidity_ = "未获取";
 
     std::mutex mutex_;
     std::deque<std::function<void()>> main_tasks_;

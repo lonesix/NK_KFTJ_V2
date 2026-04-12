@@ -18,7 +18,7 @@
 #include <lvgl.h>
 
 #define TAG "Nk-Kftj"
-
+extern void InitializeXieCoprocessor();
 class Pca9557 : public I2cDevice {
     public:
         Pca9557(i2c_master_bus_handle_t i2c_bus, uint8_t addr) : I2cDevice(i2c_bus, addr) {
@@ -276,6 +276,10 @@ class NK_KFTJ_26  : public DualNetworkBoard {
                 return true;
             });
     }
+    void InitializeXieCoprocessor() {
+        ESP_LOGI(TAG, "初始化协处理器MCP控制器");
+        ::InitializeXieCoprocessor();
+    }
     public:
     NK_KFTJ_26() : DualNetworkBoard(ML307_TX_PIN, ML307_RX_PIN, GPIO_NUM_NC, NETWORK_TYPE),
     boot_button_(BOOT_BUTTON_GPIO) {
@@ -286,6 +290,7 @@ class NK_KFTJ_26  : public DualNetworkBoard {
         InitializeButtons();
         InitializeCamera();
         // // I2cDetect();
+        InitializeXieCoprocessor();
         InitializeTools();
         GetBacklight()->RestoreBrightness(); // Restore brightness after reboot
     }

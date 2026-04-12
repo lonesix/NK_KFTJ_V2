@@ -308,7 +308,7 @@ void Application::HandleActivationDoneEvent() {
     std::string message = std::string(Lang::Strings::VERSION) + ota_->GetCurrentVersion();
     display->ShowNotification(message.c_str());
     display->SetChatMessage("system", "");
-
+    sensorDataUrl = ota_->GetUploadSensorDataUrl(); // Upload sensor data
     // Release OTA object after activation is complete
     ota_.reset();
     auto& board = Board::GetInstance();
@@ -414,10 +414,14 @@ void Application::CheckNewVersion() {
             }
 
             char error_message[128];
-            snprintf(error_message, sizeof(error_message), "code=%d, url=%s", err, ota_->GetCheckVersionUrl().c_str());
+            snprintf(error_message, sizeof(error_message), "code=%d, url=%s ,mac=%s", err, ota_->GetCheckVersionUrl().c_str(),SystemInfo::GetMacAddress().c_str());
             char buffer[256];
             snprintf(buffer, sizeof(buffer), Lang::Strings::CHECK_NEW_VERSION_FAILED, retry_delay, error_message);
             Alert(Lang::Strings::ERROR, buffer, "cloud_slash", Lang::Sounds::OGG_EXCLAMATION);
+
+            // std::string mac =  ota.GetCheckVersionUrl() +" "+ SystemInfo::GetMacAddress();
+            // snprintf(buffer, sizeof(buffer), Lang::Strings::CHECK_NEW_VERSION_FAILED, retry_delay,mac.c_str());
+            // Alert(Lang::Strings::ERROR, buffer, "sad", Lang::Sounds::OGG_EXCLAMATION);
 
             ESP_LOGW(TAG, "Check new version failed, retry in %d seconds (%d/%d)", retry_delay, retry_count, MAX_RETRY);
             for (int i = 0; i < retry_delay; i++) {
@@ -628,7 +632,17 @@ void Application::ShowActivationCode(const std::string& code, const std::string&
     }};
 
     // This sentence uses 9KB of SRAM, so we need to wait for it to finish
-    Alert(Lang::Strings::ACTIVATION, message.c_str(), "link", Lang::Sounds::OGG_ACTIVATION);
+    // Alert(Lang::Strings::ACTIVATION, message.c_str(), "link", Lang::Sounds::OGG_ACTIVATION);
+    
+    if (code == "999") 
+    {
+        std::string mac =  "mac:"+ SystemInfo::GetMacAddress();
+        Alert(Lang::Strings::ACTIVATION, mac.c_str(), "link", Lang::Sounds::OGG_ACTIVATIONAIHUB);
+        return;
+    }else
+    {
+        Alert(Lang::Strings::ACTIVATION, message.c_str(), "link", Lang::Sounds::OGG_ACTIVATION);
+    }
 
     for (const auto& digit : code) {
         auto it = std::find_if(digit_sounds.begin(), digit_sounds.end(),
@@ -1117,3 +1131,71 @@ void Application::ResetProtocol() {
     });
 }
 
+
+void Application::ProcessReceivedJson(cJSON *root)
+{   
+    static bool Isinit_xie = false;
+    
+    // // 协处理器是否初始化成功
+    // if (Isinit_xie == false)
+    // {
+    //     cJSON *init_item = cJSON_GetObjectItem(root, "Init");
+    //     if (init_item != nullptr )
+    //     {
+    //         Isinit_xie = true;  
+    //     }
+    //     return;
+    // }
+    
+    // 错误判断
+    cJSON *error_item = cJSON_GetObjectItem(root, "error");
+    if (error_item == nullptr)
+    {
+        // ESP_LOGE(TAG, "ProcessReceivedJson Not error");
+        
+    }else
+    {
+        /* 具体错误解析 */
+        ESP_LOGE(TAG, "CMD error: %s", error_item->valuestring );
+        return;
+    }
+
+    g_sensor.parseJson(root);
+    // // 获取命令返回的
+    // auto xie_name = cJSON_GetObjectItem(root, "name");
+    // auto xie_type = cJSON_GetObjectItem(root, "type");
+    // auto xie_property = cJSON_GetObjectItem(root, "property");
+    // auto xie_value = cJSON_GetObjectItem(root, "value");
+
+    // if (xie_name== nullptr || xie_type == nullptr || xie_property == nullptr || xie_value == nullptr)
+    // {
+    //     return;
+    // }
+    // if (xie_name->valuestring == nullptr || xie_type->valuestring == nullptr || xie_property->valuestring == nullptr || xie_value->valuestring == nullptr)
+    // {
+    //     ESP_LOGE(TAG, "valuestring IS NULL" );
+    //     return;
+    // }
+    
+
+    // std::string xie_name_str = xie_name->valuestring;
+    // std::string xie_type_str = xie_type->valuestring;
+    // std::string xie_property_str = xie_property->valuestring;
+    // std::string xie_value_str = xie_value->valuestring;
+    // //获取对应传感器的值
+    // if (xie_name_str == "DHT11")
+    // {
+    //     if (xie_property_str == "temp")
+    //     {
+    //         temperature_ = xie_value_str;
+    //         printf("temperature_ = %s\n", temperature_.c_str());
+    //     }
+    //     else if (xie_property_str == "hum")
+    //     {
+    //         humidity_ = xie_value_str;
+    //     }
+    // }
+    
+    
+
+}

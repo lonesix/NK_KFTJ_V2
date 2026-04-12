@@ -112,7 +112,7 @@ esp_err_t Ota::CheckVersion() {
     // Response: { "firmware": { "version": "1.0.0", "url": "http://" } }
     // Parse the JSON response and check if the version is newer
     // If it is, set has_new_version_ to true and store the new version and URL
-    
+    printf("Response: %s\n", data.c_str());
     cJSON *root = cJSON_Parse(data.c_str());
     if (root == NULL) {
         ESP_LOGE(TAG, "Failed to parse JSON response");
@@ -208,6 +208,14 @@ esp_err_t Ota::CheckVersion() {
         }
     } else {
         ESP_LOGW(TAG, "No server_time section found!");
+    }
+
+    cJSON *sensor = cJSON_GetObjectItem(root, "sensor");
+    if (cJSON_IsObject(sensor)) {
+        cJSON *uploadSensorData = cJSON_GetObjectItem(sensor, "url");
+        if (cJSON_IsString(uploadSensorData)) {
+            sensor_upload_url_ = uploadSensorData->valuestring;
+        }
     }
 
     has_new_version_ = false;
