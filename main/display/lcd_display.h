@@ -30,6 +30,11 @@ protected:
     lv_obj_t* emoji_label_ = nullptr;
     lv_obj_t* emoji_image_ = nullptr;
     std::unique_ptr<LvglGif> gif_controller_ = nullptr;
+
+    lv_obj_t* kaiji_gif_ = nullptr;
+    std::unique_ptr<LvglGif> kaiji_gif_controller_ = nullptr;
+    bool kaiji_gif_finished_ = false;
+
     lv_obj_t* emoji_box_ = nullptr;
     lv_obj_t* chat_message_label_ = nullptr;
     esp_timer_handle_t preview_timer_ = nullptr;
@@ -56,6 +61,8 @@ public:
     
     // Set whether to hide chat messages/subtitles
     void SetHideSubtitle(bool hide);
+    virtual void kaiJiGifStart() override;
+    virtual bool kaiJiGifEnd() override;
 };
 
 // SPI LCD display

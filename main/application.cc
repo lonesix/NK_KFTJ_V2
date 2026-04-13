@@ -64,6 +64,15 @@ void Application::Initialize() {
 
     // Setup the display
     auto display = board.GetDisplay();
+    //开机gif
+    display->kaiJiGifStart();
+    do
+    {
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    } while (display->kaiJiGifEnd() == false);
+    
+  
+    
     display->SetupUI();
     // Print board name/version info
     display->SetChatMessage("system", SystemInfo::GetUserAgent().c_str());

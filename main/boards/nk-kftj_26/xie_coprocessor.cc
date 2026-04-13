@@ -44,6 +44,7 @@ public:
                     auto& board = Board::GetInstance();
                     auto network = Board::GetInstance().GetNetwork();
                     auto& app = Application::GetInstance();
+                    vTaskDelay(pdMS_TO_TICKS(3000));
                     std::string url = app.GetSensorDataUrl();
                     std::string explain_url_; // 传感器数据上传地址
                     bool update_flag = true;
@@ -53,16 +54,17 @@ public:
                     {
                     vTaskDelay(pdMS_TO_TICKS(3000));
                     if (app.GetDeviceState() == DeviceState::kDeviceStateIdle) {
-                        // if (update_flag) {
-                        //     url = app.GetSensorDataUrl();
-                        //     if (url.empty())
-                        //     {
-                        //         explain_url_ = "https://changeisgreat.cn/user/client/client/addSensorInfo";
-                        //     }else {
-                        //         explain_url_ = url;
-                        //     }
-                        //     update_flag = false;
-                        // }
+                        if (update_flag) {
+                            url = app.GetSensorDataUrl();
+                            if (url.empty())
+                            {
+                                explain_url_ = "https://changeisgreat.cn/user/client/client/addSensorInfo";
+                            }else {
+                                explain_url_ = url;
+                                ESP_LOGW(TAG,"数据上报接口以更新 url: %s", explain_url_.c_str());
+                            }
+                            update_flag = false;
+                        }
 
                     }else {
                         // 网络未连接或设备不在空闲状态，不执行上传操作

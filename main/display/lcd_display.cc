@@ -291,7 +291,15 @@ LcdDisplay::~LcdDisplay() {
         gif_controller_->Stop();
         gif_controller_.reset();
     }
-    
+    if (kaiji_gif_controller_) {
+        kaiji_gif_controller_->Stop();
+        kaiji_gif_controller_.reset();
+    }
+    if (kaiji_gif_ != nullptr) {
+        lv_obj_del(kaiji_gif_);
+    }
+
+
     if (preview_timer_ != nullptr) {
         esp_timer_stop(preview_timer_);
         esp_timer_delete(preview_timer_);
@@ -348,6 +356,76 @@ bool LcdDisplay::Lock(int timeout_ms) {
 
 void LcdDisplay::Unlock() {
     lvgl_port_unlock();
+}
+
+extern const lv_image_dsc_t kaiji_gif;  
+void LcdDisplay::kaiJiGifStart() {
+    
+    DisplayLockGuard lock(this);
+    auto screen = lv_screen_active(); // Get the active screen
+    kaiji_gif_ = lv_img_create(screen);
+    // if (kaiji_gif_controller_)
+    // {
+        kaiji_gif_controller_ = std::make_unique<LvglGif>(&kaiji_gif);
+        
+        if (kaiji_gif_controller_->IsLoaded()) {
+            // printf("kaiji_gif loaded successed\n");
+            // Set up frame update callback
+            kaiji_gif_controller_->SetFrameCallback([this]() {
+                // printf("kaiji_gif frame updated\n");
+                lv_image_set_src(kaiji_gif_, kaiji_gif_controller_->image_dsc());
+                // 检查是否播放结束
+                // if (!kaiji_gif_controller_->IsPlaying() ) {
+                //     // ESP_LOGI("LcdDisplay", "GIF finished, requesting cleanup.");
+                //     printf("GIF finished, requesting cleanup.\n");
+                //     // 设置全局变量，告诉清理任务要删谁
+                //     kaiji_gif_finished_ = true;
+                    
+                    
+                // }
+            });
+            
+            // Set initial frame and start animation
+            lv_image_set_src(kaiji_gif_, kaiji_gif_controller_->image_dsc());
+            kaiji_gif_controller_->SetLoopCount(1);
+            kaiji_gif_controller_->Start();
+            
+            // Show GIF, hide others
+            lv_obj_add_flag(kaiji_gif_, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_remove_flag(kaiji_gif_, LV_OBJ_FLAG_HIDDEN);
+        } else {
+            ESP_LOGE(TAG, "Failed to load kaijiGIF for emotion");
+            kaiji_gif_controller_.reset();
+        }
+    // }
+    
+}
+
+bool LcdDisplay::kaiJiGifEnd() {
+    // 开机动画是否播放完一次
+    if (!kaiji_gif_controller_->IsPlaying())
+    {
+        printf("kaiji_gif finished\n");
+        if (kaiji_gif_ != nullptr) {
+            lv_obj_del(kaiji_gif_);
+            kaiji_gif_ = nullptr;
+        }
+        kaiji_gif_controller_->Stop();
+        kaiji_gif_controller_.reset();
+
+        return true;
+    }
+    
+    // if (kaiji_gif_controller_ && kaiji_gif_finished_) {
+    //     printf("kaiji_gif finished\n");
+    //     kaiji_gif_controller_->Stop();
+    //     kaiji_gif_controller_.reset();
+    //     if (kaiji_gif_ != nullptr) {
+    //         lv_obj_del(kaiji_gif_);
+    //     }
+    //     return true;
+    // }
+    return false;
 }
 
 #if CONFIG_USE_WECHAT_MESSAGE_STYLE
