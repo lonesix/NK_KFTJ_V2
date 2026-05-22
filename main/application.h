@@ -126,7 +126,7 @@ public:
     std::string sensorDataUrl;
     std::string GetSensorDataUrl() const { return sensorDataUrl; }
     void ProcessReceivedJson(cJSON* root);
-    std::string GetTemperature() const { return g_sensor.getValue("tem"); }
+    std::string GetTemperature() const { return g_sensor.getValue("temp"); }
     std::string GetHumidity() const { return g_sensor.getValue("hum"); }
 private:
     Application();

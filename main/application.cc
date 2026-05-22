@@ -316,7 +316,7 @@ void Application::HandleActivationDoneEvent() {
     auto display = Board::GetInstance().GetDisplay();
     std::string message = std::string(Lang::Strings::VERSION) + ota_->GetCurrentVersion();
     display->ShowNotification(message.c_str());
-    display->SetChatMessage("system", "");
+    display->SetChatMessage("system", "千机赋能..");
     sensorDataUrl = ota_->GetUploadSensorDataUrl(); // Upload sensor data
     // Release OTA object after activation is complete
     ota_.reset();
@@ -400,7 +400,7 @@ void Application::CheckAssetsVersion() {
 
     // Apply assets
     assets.Apply();
-    display->SetChatMessage("system", "");
+    display->SetChatMessage("system", "千机赋能..");
     display->SetEmotion("microchip_ai");
 }
 
@@ -526,7 +526,7 @@ void Application::InitializeProtocol() {
         board.SetPowerSaveLevel(PowerSaveLevel::LOW_POWER);
         Schedule([this]() {
             auto display = Board::GetInstance().GetDisplay();
-            display->SetChatMessage("system", "");
+            display->SetChatMessage("system", "千机赋能..");
             SetDeviceState(kDeviceStateIdle);
         });
     });
@@ -678,7 +678,7 @@ void Application::DismissAlert() {
         auto display = Board::GetInstance().GetDisplay();
         display->SetStatus(Lang::Strings::STANDBY);
         display->SetEmotion("neutral");
-        display->SetChatMessage("system", "");
+        display->SetChatMessage("system", "千机赋能..");
     }
 }
 
@@ -896,7 +896,7 @@ void Application::HandleStateChangedEvent() {
         case kDeviceStateConnecting:
             display->SetStatus(Lang::Strings::CONNECTING);
             display->SetEmotion("neutral");
-            display->SetChatMessage("system", "");
+            display->SetChatMessage("system", "千机赋能..");
             break;
         case kDeviceStateListening:
             display->SetStatus(Lang::Strings::LISTENING);

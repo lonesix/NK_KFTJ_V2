@@ -78,24 +78,24 @@ void McpServer::AddCommonTools() {
     }
 
 #ifdef HAVE_LVGL
-    auto display = board.GetDisplay();
-    if (display && display->GetTheme() != nullptr) {
-        AddTool("self.screen.set_theme",
-            "Set the theme of the screen. The theme can be `light` or `dark`.",
-            PropertyList({
-                Property("theme", kPropertyTypeString)
-            }),
-            [display](const PropertyList& properties) -> ReturnValue {
-                auto theme_name = properties["theme"].value<std::string>();
-                auto& theme_manager = LvglThemeManager::GetInstance();
-                auto theme = theme_manager.GetTheme(theme_name);
-                if (theme != nullptr) {
-                    display->SetTheme(theme);
-                    return true;
-                }
-                return false;
-            });
-    }
+    // auto display = board.GetDisplay();
+    // if (display && display->GetTheme() != nullptr) {
+    //     AddTool("self.screen.set_theme",
+    //         "Set the theme of the screen. The theme can be `light` or `dark`.",
+    //         PropertyList({
+    //             Property("theme", kPropertyTypeString)
+    //         }),
+    //         [display](const PropertyList& properties) -> ReturnValue {
+    //             auto theme_name = properties["theme"].value<std::string>();
+    //             auto& theme_manager = LvglThemeManager::GetInstance();
+    //             auto theme = theme_manager.GetTheme(theme_name);
+    //             if (theme != nullptr) {
+    //                 display->SetTheme(theme);
+    //                 return true;
+    //             }
+    //             return false;
+    //         });
+    // }
 
     auto camera = board.GetCamera();
     if (camera) {

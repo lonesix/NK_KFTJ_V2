@@ -29,6 +29,7 @@ protected:
     lv_obj_t* preview_image_ = nullptr;
     lv_obj_t* emoji_label_ = nullptr;
     lv_obj_t* emoji_image_ = nullptr;
+    lv_obj_t* ai_text_area = nullptr;
     std::unique_ptr<LvglGif> gif_controller_ = nullptr;
 
     lv_obj_t* kaiji_gif_ = nullptr;
@@ -63,6 +64,7 @@ public:
     void SetHideSubtitle(bool hide);
     virtual void kaiJiGifStart() override;
     virtual bool kaiJiGifEnd() override;
+    void setAiTextArea();
 };
 
 // SPI LCD display
